@@ -4,8 +4,8 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Patterns;
 
-import com.marcosvbras.empresas.ErrorObservable;
-import com.marcosvbras.empresas.LoginViewModelCallback;
+import com.marcosvbras.empresas.views.utils.ErrorObservable;
+import com.marcosvbras.empresas.views.listeners.LoginViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.LoginBody;
 import com.marcosvbras.empresas.models.api.UserModel;

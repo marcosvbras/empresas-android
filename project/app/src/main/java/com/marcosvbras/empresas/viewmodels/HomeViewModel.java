@@ -2,7 +2,7 @@ package com.marcosvbras.empresas.viewmodels;
 
 import android.databinding.ObservableBoolean;
 
-import com.marcosvbras.empresas.HomeViewModelCallback;
+import com.marcosvbras.empresas.views.listeners.HomeViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.EnterpriseModel;
 import com.marcosvbras.empresas.models.api.UserModel;

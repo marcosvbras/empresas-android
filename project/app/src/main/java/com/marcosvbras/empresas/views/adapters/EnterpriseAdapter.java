@@ -3,7 +3,6 @@ package com.marcosvbras.empresas.views.adapters;
 import android.support.annotation.NonNull;
 
 import com.genius.groupie.GroupAdapter;
-import com.marcosvbras.empresas.EnterpriseItem;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 
 import java.util.ArrayList;

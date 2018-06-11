@@ -1,4 +1,6 @@
-package com.marcosvbras.empresas;
+package com.marcosvbras.empresas.views.listeners;
+
+import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
 public interface LoginViewModelCallback extends BaseViewModelCallback {
 

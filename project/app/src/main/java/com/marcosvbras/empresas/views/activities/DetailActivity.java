@@ -1,62 +1,69 @@
 package com.marcosvbras.empresas.views.activities;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.widget.TextView;
 
+import com.marcosvbras.empresas.views.listeners.DetailViewModelCallBack;
 import com.marcosvbras.empresas.R;
+import com.marcosvbras.empresas.databinding.ActivityDetailBinding;
 import com.marcosvbras.empresas.models.api.UserModel;
 import com.marcosvbras.empresas.models.domain.Enterprise;
-import com.marcosvbras.empresas.views.interfaces.DetailView;
+import com.marcosvbras.empresas.viewmodels.DetailViewModel;
 
-public class DetailActivity extends BaseActivity implements DetailView {
+public class DetailActivity extends BaseActivity implements DetailViewModelCallBack {
 
     private int id;
-    private TextView textViewDescription;
-    private TextView textViewLetters;
+    private ActivityDetailBinding activityDetailBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
-        bindViews();
+        DetailViewModel detailViewModel = new DetailViewModel(this);
+//        setContentView(R.layout.activity_detail);
+        activityDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        activityDetailBinding.setViewModel(detailViewModel);
+        activityDetailBinding.executePendingBindings();
+        config();
     }
 
-    private void bindViews() {
+    private void config() {
         setSupportActionBar(findViewById(R.id.top_toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         id = getIntent().getExtras().getInt("id");
-        textViewDescription = findViewById(R.id.text_view_description);
-        textViewLetters = findViewById(R.id.text_view_letters);
-    }
-
-    @Override
-    public void showErrorDialog(String message) {
-        showErrorDialog(message);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        detailPresenter.requestEnterpriseBy(id);
+        activityDetailBinding.getViewModel().requestEnterpriseById(id);
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showEnterpriseInfo(Enterprise enterprise) {
+    public void onEnterpriseResponse(Enterprise enterprise) {
         if(enterprise != null) {
             getSupportActionBar().setTitle(enterprise.getEnterpriseName());
-            textViewDescription.setText(enterprise.getDescription());
         }
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showMessage(int message) {
+
+    }
+
+    @Override
+    public void showError(String message) {
+        showErrorDialog(message);
+    }
+
+    @Override
+    public void showError(int message) {
+        showErrorDialog(getString(message));
     }
 
     @Override

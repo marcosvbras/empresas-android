@@ -3,7 +3,7 @@ package com.marcosvbras.empresas.models.api;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.marcosvbras.empresas.Constants;
+import com.marcosvbras.empresas.views.utils.Constants;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 
 import java.util.List;

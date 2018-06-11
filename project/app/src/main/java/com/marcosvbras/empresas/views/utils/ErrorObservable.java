@@ -1,4 +1,4 @@
-package com.marcosvbras.empresas;
+package com.marcosvbras.empresas.views.utils;
 
 import android.databinding.BaseObservable;
 

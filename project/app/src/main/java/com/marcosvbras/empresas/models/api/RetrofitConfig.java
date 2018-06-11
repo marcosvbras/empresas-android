@@ -1,6 +1,6 @@
 package com.marcosvbras.empresas.models.api;
 
-import com.marcosvbras.empresas.Constants;
+import com.marcosvbras.empresas.views.utils.Constants;
 
 import java.util.HashMap;
 

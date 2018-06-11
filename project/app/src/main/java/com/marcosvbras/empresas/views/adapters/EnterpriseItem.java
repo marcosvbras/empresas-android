@@ -1,6 +1,7 @@
-package com.marcosvbras.empresas;
+package com.marcosvbras.empresas.views.adapters;
 
 import com.genius.groupie.Item;
+import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ItemEnterpriseBinding;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 

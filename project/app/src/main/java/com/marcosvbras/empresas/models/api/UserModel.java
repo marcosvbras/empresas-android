@@ -3,7 +3,7 @@ package com.marcosvbras.empresas.models.api;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.marcosvbras.empresas.Constants;
+import com.marcosvbras.empresas.views.utils.Constants;
 import com.marcosvbras.empresas.EnterpriseApp;
 
 import java.util.HashMap;

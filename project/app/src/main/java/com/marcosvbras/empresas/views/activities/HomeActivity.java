@@ -3,22 +3,20 @@ package com.marcosvbras.empresas.views.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.genius.groupie.GroupAdapter;
-import com.marcosvbras.empresas.HomeViewModelCallback;
+import com.marcosvbras.empresas.views.listeners.HomeViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ActivityHomeBinding;
 import com.marcosvbras.empresas.models.api.UserModel;
 import com.marcosvbras.empresas.viewmodels.HomeViewModel;
 import com.marcosvbras.empresas.views.adapters.EnterpriseAdapter;
-import com.marcosvbras.empresas.listeners.RecyclerViewTouchConfig;
-import com.marcosvbras.empresas.listeners.OnRecyclerViewTouchListener;
+import com.marcosvbras.empresas.views.listeners.RecyclerViewTouchConfig;
+import com.marcosvbras.empresas.views.listeners.OnRecyclerViewTouchListener;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
-import com.marcosvbras.empresas.LoginViewModelCallback;
+import com.marcosvbras.empresas.views.listeners.LoginViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ActivityLoginBinding;
 import com.marcosvbras.empresas.viewmodels.LoginViewModel;
