@@ -3,13 +3,12 @@ package com.marcosvbras.empresas.views.activities;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.marcosvbras.empresas.views.listeners.HomeViewModelCallback;
+import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ActivityHomeBinding;
 import com.marcosvbras.empresas.models.api.UserModel;
@@ -22,10 +21,9 @@ import com.marcosvbras.empresas.models.domain.Enterprise;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends BaseActivity implements HomeViewModelCallback, OnRecyclerViewTouchListener {
+public class HomeActivity extends BaseActivity implements OnRecyclerViewTouchListener, BaseViewModelCallback {
 
     private SearchView searchView;
-    private RecyclerView recyclerView;
     private List<Enterprise> originalListEnterprise;
     private EnterpriseAdapter enterpriseAdapter;
     private boolean firstCall = true;
@@ -50,11 +48,10 @@ public class HomeActivity extends BaseActivity implements HomeViewModelCallback,
 
     private void config() {
         setSupportActionBar(findViewById(R.id.top_toolbar));
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addOnItemTouchListener(new RecyclerViewTouchConfig(getBaseContext(), recyclerView, this));
+//        recyclerView = findViewById(R.id.recyclerView);
+//        recyclerView.addOnItemTouchListener(new RecyclerViewTouchConfig(getBaseContext(), recyclerView, this));
         enterpriseAdapter = new EnterpriseAdapter(originalListEnterprise);
-        recyclerView.setAdapter(enterpriseAdapter);
+//        recyclerView.setAdapter(enterpriseAdapter);
     }
 
     @Override
@@ -65,7 +62,7 @@ public class HomeActivity extends BaseActivity implements HomeViewModelCallback,
         searchView = (SearchView) menuItemSearch.getActionView();
         searchView.setOnQueryTextListener(onSearchListener());
         searchView.setOnCloseListener(() -> {
-            onSearchResponse(originalListEnterprise);
+            activityHomeBinding.getViewModel().requestEnterprises(null);
             return false;
         });
 
@@ -107,43 +104,21 @@ public class HomeActivity extends BaseActivity implements HomeViewModelCallback,
     }
 
     @Override
-    public void onSearchResponse(List<Enterprise> list) {
-        if (firstCall && list != null) {
-            originalListEnterprise = list;
-            firstCall = false;
-        }
-
-        enterpriseAdapter.updateItems(list);
-    }
-
-    @Override
-    public void showMessage(String message) {
-
-    }
-
-    @Override
-    public void showMessage(int message) {
-
-    }
-
-    @Override
-    public void showError(String message) {
+    public void showErrorDialog(String message) {
         showErrorDialog(message);
     }
 
     @Override
-    public void showError(int message) {
+    public void showErrorDialog(int message) {
         showErrorDialog(getString(message));
     }
 
     @Override
     public void onItemClick(View view, int position) {
         Enterprise enterprise = enterpriseAdapter.getCurrentList().get(position);
-        Intent intent = new Intent(this, DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("id", enterprise.getId());
-        intent.putExtras(bundle);
-        startActivity(intent);
+        startNewActivity(DetailActivity.class, bundle, false);
     }
 
     @Override

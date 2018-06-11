@@ -57,6 +57,8 @@
                 android:scrollbars="vertical"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="42dp"
+                app:adapter="@{viewModel.enterpriseAdapter}"
+                app:data="@{viewModel.listEnterprise}"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

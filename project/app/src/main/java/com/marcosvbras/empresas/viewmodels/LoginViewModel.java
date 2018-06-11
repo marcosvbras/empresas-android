@@ -4,13 +4,17 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 import com.marcosvbras.empresas.views.utils.ErrorObservable;
-import com.marcosvbras.empresas.views.listeners.LoginViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.LoginBody;
 import com.marcosvbras.empresas.models.api.UserModel;
 
 public class LoginViewModel extends BaseViewModel implements UserModel.OnRequestUserListener {
+
+    public interface LoginViewModelCallback extends BaseViewModelCallback {
+        void onSignedIn();
+    }
 
     private UserModel userModel;
     private LoginViewModelCallback loginCallback;
@@ -58,31 +62,31 @@ public class LoginViewModel extends BaseViewModel implements UserModel.OnRequest
 
     @Override
     public void onLoginFailure(String message) {
-        loginCallback.showError(message);
+        loginCallback.showErrorDialog(message);
     }
 
     @Override
     public void onRequestError(String message) {
-        loginCallback.showError(message);
+        loginCallback.showErrorDialog(message);
     }
 
     @Override
     public void onRequestStarted() {
-        getIsLoading().set(true);
+        isLoading.set(true);
     }
 
     @Override
     public void onRequestFinished() {
-        getIsLoading().set(false);
+        isLoading.set(false);
     }
 
     @Override
     public void onUnauthorizedRequest() {
-        loginCallback.showError(R.string.wrong_email_or_password);
+        loginCallback.showErrorDialog(R.string.wrong_email_or_password);
     }
 
     @Override
     public void onServerError() {
-        loginCallback.showError(R.string.server_error_message);
+        loginCallback.showErrorDialog(R.string.server_error_message);
     }
 }

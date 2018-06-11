@@ -1,6 +1,5 @@
 package com.marcosvbras.empresas.views.activities;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -47,30 +46,18 @@ public class DetailActivity extends BaseActivity implements DetailViewModelCallB
     }
 
     @Override
-    public void showMessage(String message) {
-
-    }
-
-    @Override
-    public void showMessage(int message) {
-
-    }
-
-    @Override
-    public void showError(String message) {
-        showErrorDialog(message);
-    }
-
-    @Override
-    public void showError(int message) {
+    public void showErrorDialog(int message) {
         showErrorDialog(getString(message));
+    }
+
+    @Override
+    public void showErrorDialog(String message) {
+        showErrorDialog(message);
     }
 
     @Override
     public void onInvalidAuthentication() {
         UserModel.deleteCredentials();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        startNewActivity(LoginActivity.class, null, true);
     }
 }
