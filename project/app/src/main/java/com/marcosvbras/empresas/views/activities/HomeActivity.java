@@ -1,52 +1,45 @@
 package com.marcosvbras.empresas.views.activities;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.marcosvbras.empresas.EnterpriseApplication;
+import com.marcosvbras.empresas.HomeViewModelCallback;
 import com.marcosvbras.empresas.R;
+import com.marcosvbras.empresas.databinding.ActivityHomeBinding;
 import com.marcosvbras.empresas.models.api.UserModel;
-import com.marcosvbras.empresas.presenters.HomePresenter;
+import com.marcosvbras.empresas.viewmodels.HomeViewModel;
 import com.marcosvbras.empresas.views.adapters.EnterpriseAdapter;
 import com.marcosvbras.empresas.listeners.RecyclerViewTouchConfig;
 import com.marcosvbras.empresas.listeners.OnRecyclerViewTouchListener;
 import com.marcosvbras.empresas.models.domain.Enterprise;
-import com.marcosvbras.empresas.views.interfaces.HomeView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends MvpAppCompatActivity implements HomeView, OnRecyclerViewTouchListener {
+public class HomeActivity extends BaseActivity implements HomeViewModelCallback, OnRecyclerViewTouchListener {
 
-    @InjectPresenter
-    HomePresenter homePresenter;
     private SearchView searchView;
     private RecyclerView recyclerView;
     private List<Enterprise> originalListEnterprise;
     private LinearLayoutManager linearLayoutManager;
     private EnterpriseAdapter enterpriseAdapter;
-    private ProgressBar progressBar;
-    private MenuItem menuItemSearch;
-    private TextView textViewNotFound;
-    private AlertDialog.Builder alertDialog;
     private boolean firstCall = true;
+    private ActivityHomeBinding activityHomeBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        HomeViewModel homeViewModel = new HomeViewModel(this);
+        activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        activityHomeBinding.setViewModel(homeViewModel);
+        activityHomeBinding.executePendingBindings();
         originalListEnterprise = new ArrayList<>();
         bindViews();
     }
@@ -54,60 +47,30 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView, OnRe
     @Override
     protected void onResume() {
         super.onResume();
-        homePresenter.requestEnterprises(null);
-    }
-
-    @Override
-    public void onInvalidAuthentication() {
-        UserModel.deleteCredentials(this);
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        activityHomeBinding.getViewModel().requestEnterprises(null);
     }
 
     private void bindViews() {
         setSupportActionBar(findViewById(R.id.top_toolbar));
         recyclerView = findViewById(R.id.recyclerView);
-        progressBar = findViewById(R.id.progressBar);
-        textViewNotFound = findViewById(R.id.text_view_not_found);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setStackFromEnd(false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchConfig(getBaseContext(), recyclerView, this));
-        alertDialog = new AlertDialog.Builder(this);
         enterpriseAdapter = new EnterpriseAdapter(originalListEnterprise, this);
         recyclerView.setAdapter(enterpriseAdapter);
-    }
-
-    @Override
-    public void updateRecyclerView(List<Enterprise> list) {
-        if (firstCall && list != null) {
-            originalListEnterprise = list;
-            firstCall = false;
-        }
-
-        enterpriseAdapter.updateItems(list);
-        textViewNotFound.setVisibility(list.size() == 0 ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void showErrorDialog(String message) {
-        alertDialog
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.ok), null)
-                .show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         // Setting search view
-        menuItemSearch = menu.findItem(R.id.search);
+        MenuItem menuItemSearch = menu.findItem(R.id.search);
         searchView = (SearchView) menuItemSearch.getActionView();
         searchView.setOnQueryTextListener(onSearchListener());
         searchView.setOnCloseListener(() -> {
-            updateRecyclerView(originalListEnterprise);
+            onSearchResponse(originalListEnterprise);
             return false;
         });
 
@@ -134,20 +97,48 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView, OnRe
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                homePresenter.requestEnterprises(newText);
+                activityHomeBinding.getViewModel().requestEnterprises(newText);
                 return true;
             }
         };
     }
 
     @Override
-    public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+    public void onInvalidAuthentication() {
+        UserModel.deleteCredentials();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
-    public void hideLoading() {
-        progressBar.setVisibility(View.GONE);
+    public void onSearchResponse(List<Enterprise> list) {
+        if (firstCall && list != null) {
+            originalListEnterprise = list;
+            firstCall = false;
+        }
+
+        enterpriseAdapter.updateItems(list);
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showMessage(int message) {
+
+    }
+
+    @Override
+    public void showError(String message) {
+        showErrorDialog(message);
+    }
+
+    @Override
+    public void showError(int message) {
+        showErrorDialog(getString(message));
     }
 
     @Override

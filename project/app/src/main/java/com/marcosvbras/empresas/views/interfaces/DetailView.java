@@ -1,9 +1,8 @@
 package com.marcosvbras.empresas.views.interfaces;
 
-import com.arellomobile.mvp.MvpView;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 
-public interface DetailView extends MvpView {
+public interface DetailView {
 
     void showErrorDialog(String message);
     void showLoading();

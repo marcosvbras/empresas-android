@@ -1,54 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".views.activities.HomeActivity"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include layout="@layout/toolbar"/>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.marcosvbras.empresas.viewmodels.HomeViewModel"/>
+    </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
+        tools:context=".views.activities.HomeActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/defaultBackground">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_view_not_found"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:text="@string/no_enterprise_found"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/recyclerView" />
+        <include layout="@layout/toolbar"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
-            app:layout_constraintStart_toStartOf="@+id/recyclerView"
-            app:layout_constraintTop_toTopOf="@+id/recyclerView" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="42dp" />
+            android:background="@color/defaultBackground">
 
-    </android.support.constraint.ConstraintLayout>
-</LinearLayout>
+            <TextView
+                android:id="@+id/text_view_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:text="@string/no_enterprise_found"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/recyclerView" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+                app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+                app:layout_constraintStart_toStartOf="@+id/recyclerView"
+                app:layout_constraintTop_toTopOf="@+id/recyclerView" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="42dp"
+                app:adapter="@{viewModel.enterpriseAdapter}"
+                app:data="@{viewModel.listEnterprise}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+</layout>

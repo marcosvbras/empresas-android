@@ -1,28 +1,19 @@
 package com.marcosvbras.empresas.views.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.marcosvbras.empresas.EnterpriseApplication;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.UserModel;
 import com.marcosvbras.empresas.models.domain.Enterprise;
-import com.marcosvbras.empresas.presenters.DetailPresenter;
 import com.marcosvbras.empresas.views.interfaces.DetailView;
 
-public class DetailActivity extends MvpAppCompatActivity implements DetailView {
+public class DetailActivity extends BaseActivity implements DetailView {
 
-    @InjectPresenter
-    DetailPresenter detailPresenter;
     private int id;
     private TextView textViewDescription;
     private TextView textViewLetters;
-    private AlertDialog.Builder alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +28,17 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
         id = getIntent().getExtras().getInt("id");
         textViewDescription = findViewById(R.id.text_view_description);
         textViewLetters = findViewById(R.id.text_view_letters);
-        alertDialog = new AlertDialog.Builder(this);
     }
 
     @Override
     public void showErrorDialog(String message) {
-        alertDialog
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.ok), null)
-                .show();
+        showErrorDialog(message);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        detailPresenter.requestEnterpriseBy(id);
+//        detailPresenter.requestEnterpriseBy(id);
     }
 
     @Override
@@ -74,7 +61,7 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailView {
 
     @Override
     public void onInvalidAuthentication() {
-        UserModel.deleteCredentials(this);
+        UserModel.deleteCredentials();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();

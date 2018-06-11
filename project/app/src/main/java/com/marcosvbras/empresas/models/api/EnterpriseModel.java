@@ -1,9 +1,9 @@
 package com.marcosvbras.empresas.models.api;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.marcosvbras.empresas.Constants;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 
 import java.util.List;
@@ -24,11 +24,9 @@ public class EnterpriseModel {
     }
 
     private OnRequestEnterpriseListener requestListener;
-    private Context context;
 
-    public EnterpriseModel(OnRequestEnterpriseListener requestListener, Context context) {
+    public EnterpriseModel(OnRequestEnterpriseListener requestListener) {
         this.requestListener = requestListener;
-        this.context = context;
     }
 
     public void requestEnterprises(String query) {
@@ -36,9 +34,9 @@ public class EnterpriseModel {
         Call<EnterpriseResponse> call;
 
         if(TextUtils.isEmpty(query) || query == null)
-            call = new RetrofitConfig(UserModel.getCredentials(context)).getEnterpriseService().getAllEnterprises();
+            call = new RetrofitConfig(UserModel.getCredentials()).getEnterpriseService().getAllEnterprises();
         else
-            call = new RetrofitConfig(UserModel.getCredentials(context)).getEnterpriseService().getEnterprises(query);
+            call = new RetrofitConfig(UserModel.getCredentials()).getEnterpriseService().getEnterprises(query);
 
         call.enqueue(enterpriseListCallback());
     }
@@ -46,7 +44,7 @@ public class EnterpriseModel {
     public void requestSingleEnterprise(@NonNull int id) {
         requestListener.onRequestStarted();
         Call<EnterpriseDetailResponse> call = new RetrofitConfig(
-                UserModel.getCredentials(context)
+                UserModel.getCredentials()
         ).getEnterpriseService().getEnterprise(id);
         call.enqueue(singleEnterpriseCallback());
     }
@@ -57,11 +55,11 @@ public class EnterpriseModel {
             public void onResponse(Call<EnterpriseResponse> call, Response<EnterpriseResponse> response) {
                 requestListener.onRequestFinished();
 
-                if (response.code() == OnRequestEnterpriseListener.UNAUTHORIZED)
+                if (response.code() == Constants.UNAUTHORIZED)
                     requestListener.onUnauthorizedRequest();
-                else if (response.code() == OnRequestEnterpriseListener.SERVER_ERROR)
+                else if (response.code() == Constants.SERVER_ERROR)
                     requestListener.onServerError();
-                else if (response.code() == OnRequestEnterpriseListener.OK && response.body() != null)
+                else if (response.code() == Constants.OK && response.body() != null)
                     requestListener.onEnterpriseListReceived(response.body().getListEnterprises());
                 else
                     requestListener.onRequestError(response.message());

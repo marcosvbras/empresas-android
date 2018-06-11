@@ -1,78 +1,66 @@
 package com.marcosvbras.empresas.views.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.marcosvbras.empresas.LoginViewModelCallback;
 import com.marcosvbras.empresas.R;
-import com.marcosvbras.empresas.presenters.LoginPresenter;
-import com.marcosvbras.empresas.views.interfaces.LoginView;
+import com.marcosvbras.empresas.databinding.ActivityLoginBinding;
+import com.marcosvbras.empresas.viewmodels.LoginViewModel;
 
-public class LoginActivity extends MvpAppCompatActivity implements LoginView {
+public class LoginActivity extends BaseActivity implements LoginViewModelCallback {
 
-    @InjectPresenter
-    LoginPresenter loginPresenter;
-    private EditText editTextEmail;
-    private EditText editTextPassword;
-    private ProgressBar progressBar;
-    private AlertDialog.Builder alertDialog;
+    private ActivityLoginBinding activityLoginBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        bindViews();
+        LoginViewModel loginViewModel = new LoginViewModel(this);
+        activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        activityLoginBinding.setViewModel(loginViewModel);
+        activityLoginBinding.executePendingBindings();
     }
 
-    private void bindViews() {
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        progressBar = findViewById(R.id.progress_bar);
-        findViewById(R.id.buttonEntry).setOnClickListener(click -> onEntryButtonClick());
-        alertDialog = new AlertDialog.Builder(this);
-    }
-
-    @Override
-    public void showErrorDialog(String message) {
-        alertDialog
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.ok), null)
-                .show();
-    }
-
-    private void onEntryButtonClick() {
-        loginPresenter.signIn(
-                editTextEmail.getText().toString(),
-                editTextPassword.getText().toString()
-        );
+    public void onEntryButtonClick(View view) {
+        activityLoginBinding.getViewModel().requestLogin();
     }
 
     @Override
-    public void showEditTextError(int viewId, int message) {
-        ((EditText)findViewById(viewId)).setError(getString(message));
-        (findViewById(viewId)).requestFocus();
+    public void onInvalidEmail(int message) {
+
     }
 
     @Override
-    public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+    public void onInvalidPassword(int message) {
+
     }
 
     @Override
-    public void hideLoading() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onSignIn() {
+    public void onSignedIn() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showMessage(int message) {
+
+    }
+
+    @Override
+    public void showError(String message) {
+        showErrorDialog(message);
+    }
+
+    @Override
+    public void showError(int message) {
+        showErrorDialog(getString(message));
     }
 }

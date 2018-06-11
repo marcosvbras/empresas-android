@@ -1,5 +1,7 @@
 package com.marcosvbras.empresas.models.api;
 
+import com.marcosvbras.empresas.Constants;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -24,9 +26,9 @@ public class RequestInterceptor implements Interceptor {
 
         Request request = originalRequest.newBuilder()
                 .header("Content-Type", "application/json")
-                .header(UserModel.ACCESS_TOKEN_KEY, accessToken)
-                .header(UserModel.CLIENT_KEY, client)
-                .header(UserModel.UID_KEY, uid)
+                .header(Constants.ACCESS_TOKEN_KEY, accessToken)
+                .header(Constants.CLIENT_KEY, client)
+                .header(Constants.UID_KEY, uid)
                 .method(originalRequest.method(), originalRequest.body())
                 .build();
         Response response = chain.proceed(request);
