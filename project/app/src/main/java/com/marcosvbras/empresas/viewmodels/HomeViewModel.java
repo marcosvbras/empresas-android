@@ -1,6 +1,5 @@
 package com.marcosvbras.empresas.viewmodels;
 
-import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
 
 import com.marcosvbras.empresas.HomeViewModelCallback;
@@ -16,7 +15,6 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
     private HomeViewModelCallback homeCallback;
     private EnterpriseModel enterpriseModel;
     private ObservableBoolean isListEmpty = new ObservableBoolean(true);
-    private List<Enterprise> listEnterprise;
 
     public HomeViewModel(HomeViewModelCallback homeCallback) {
         this.homeCallback = homeCallback;
@@ -25,11 +23,6 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
             onUnauthorizedRequest();
 
         enterpriseModel = new EnterpriseModel(this);
-    }
-
-    @Bindable
-    public List<Enterprise> getListEnterprise() {
-        return this.listEnterprise;
     }
 
     public void requestEnterprises(String query) {

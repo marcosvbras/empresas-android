@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.genius.groupie.GroupAdapter;
 import com.marcosvbras.empresas.HomeViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ActivityHomeBinding;
@@ -28,7 +29,6 @@ public class HomeActivity extends BaseActivity implements HomeViewModelCallback,
     private SearchView searchView;
     private RecyclerView recyclerView;
     private List<Enterprise> originalListEnterprise;
-    private LinearLayoutManager linearLayoutManager;
     private EnterpriseAdapter enterpriseAdapter;
     private boolean firstCall = true;
     private ActivityHomeBinding activityHomeBinding;
@@ -41,7 +41,7 @@ public class HomeActivity extends BaseActivity implements HomeViewModelCallback,
         activityHomeBinding.setViewModel(homeViewModel);
         activityHomeBinding.executePendingBindings();
         originalListEnterprise = new ArrayList<>();
-        bindViews();
+        config();
     }
 
     @Override
@@ -50,15 +50,12 @@ public class HomeActivity extends BaseActivity implements HomeViewModelCallback,
         activityHomeBinding.getViewModel().requestEnterprises(null);
     }
 
-    private void bindViews() {
+    private void config() {
         setSupportActionBar(findViewById(R.id.top_toolbar));
         recyclerView = findViewById(R.id.recyclerView);
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        linearLayoutManager.setStackFromEnd(false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchConfig(getBaseContext(), recyclerView, this));
-        enterpriseAdapter = new EnterpriseAdapter(originalListEnterprise, this);
+        enterpriseAdapter = new EnterpriseAdapter(originalListEnterprise);
         recyclerView.setAdapter(enterpriseAdapter);
     }
 

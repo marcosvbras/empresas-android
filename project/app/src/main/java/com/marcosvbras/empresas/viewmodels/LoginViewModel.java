@@ -68,12 +68,12 @@ public class LoginViewModel extends BaseViewModel implements UserModel.OnRequest
 
     @Override
     public void onRequestStarted() {
-        isLoading.set(true);
+        getIsLoading().set(true);
     }
 
     @Override
     public void onRequestFinished() {
-        isLoading.set(false);
+        getIsLoading().set(false);
     }
 
     @Override
