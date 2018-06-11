@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#EE4C77</color>
+    <color name="colorPrimaryDark">#C23B5D</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="defaultBackground">#ECE8D7</color>
+    <color name="greeny_blue">#57bbbc</color>
+    <color name="enterprise_panel">#7dc075</color>
+    <color name="enterprise_name_text">#1a0e49</color>
+</resources>

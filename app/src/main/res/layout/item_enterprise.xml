@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/enterprise_item_height"
+    android:orientation="vertical"
+    android:background="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:id="@+id/list_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/enterprise_item_margin"
+        android:padding="@dimen/enterprise_item_padding"
+        android:background="@android:color/white">
+        
+        <LinearLayout
+            android:id="@+id/enterprise_panel"
+            android:layout_width="@dimen/enterprise_item_panel_width"
+            android:layout_height="@dimen/enterprise_item_panel_height"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/enterprise_panel">
+
+            <TextView
+                android:id="@+id/text_view_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E1"
+                android:textSize="30sp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_view_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Empresa 1"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/enterprise_item_text_margin_left"
+            android:textColor="@color/enterprise_name_text"
+            android:layout_toRightOf="@id/enterprise_panel"/>
+
+        <TextView
+            android:id="@+id/text_view_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Negócio"
+            android:textSize="17sp"
+            android:textStyle="italic"
+            android:layout_marginLeft="@dimen/enterprise_item_text_margin_left"
+            android:layout_toRightOf="@id/enterprise_panel"
+            android:layout_below="@+id/text_view_name"/>
+
+        <TextView
+            android:id="@+id/text_view_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brasil"
+            android:layout_marginLeft="@dimen/enterprise_item_text_margin_left"
+            android:textSize="17sp"
+            android:layout_toRightOf="@id/enterprise_panel"
+            android:layout_below="@+id/text_view_type"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
