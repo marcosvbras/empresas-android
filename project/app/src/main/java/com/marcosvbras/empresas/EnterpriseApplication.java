@@ -1,49 +1,19 @@
 package com.marcosvbras.empresas;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.marcosvbras.empresas.models.api.UserModel;
 
 public class EnterpriseApplication extends Application {
 
     private static EnterpriseApplication instance;
-    private String client;
-    private String accessToken;
-    private String uid;
 
     public static EnterpriseApplication getInstance() {
+        if (instance == null)
+            instance = new EnterpriseApplication();
+
         return instance;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 }

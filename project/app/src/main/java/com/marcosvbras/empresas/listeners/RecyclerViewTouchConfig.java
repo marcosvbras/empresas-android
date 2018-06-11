@@ -6,15 +6,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+public class RecyclerViewTouchConfig implements RecyclerView.OnItemTouchListener {
 
     private RecyclerView recyclerView;
-    private RecyclerViewTouchListener recyclerViewTouchListener;
+    private OnRecyclerViewTouchListener onRecyclerViewTouchListener;
     private GestureDetector gestureDetector;
 
-    public RecyclerTouchListener(Context context, RecyclerView recyclerView, RecyclerViewTouchListener recyclerViewTouchListener) {
+    public RecyclerViewTouchConfig(Context context, RecyclerView recyclerView, OnRecyclerViewTouchListener onRecyclerViewTouchListener) {
         this.recyclerView = recyclerView;
-        this.recyclerViewTouchListener = recyclerViewTouchListener;
+        this.onRecyclerViewTouchListener = onRecyclerViewTouchListener;
         gestureDetector = new GestureDetector(context, onSimpleGestureListener());
     }
 
@@ -24,8 +24,8 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
             public boolean onSingleTapUp(MotionEvent motionEvent) {
                 View clickedView = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
 
-                if(clickedView != null && recyclerViewTouchListener != null)
-                    recyclerViewTouchListener.onItemClick(clickedView, recyclerView.getChildAdapterPosition(clickedView));
+                if(clickedView != null && onRecyclerViewTouchListener != null)
+                    onRecyclerViewTouchListener.onItemClick(clickedView, recyclerView.getChildAdapterPosition(clickedView));
 
                 return true;
             }
@@ -34,8 +34,8 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
             public void onLongPress(MotionEvent motionEvent) {
                 View clickedView = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
 
-                if(clickedView != null && recyclerViewTouchListener != null)
-                    recyclerViewTouchListener.onLongItemClick(clickedView, recyclerView.getChildAdapterPosition(clickedView));
+                if(clickedView != null && onRecyclerViewTouchListener != null)
+                    onRecyclerViewTouchListener.onLongItemClick(clickedView, recyclerView.getChildAdapterPosition(clickedView));
             }
         };
     }

@@ -1,6 +1,4 @@
-package com.marcosvbras.empresas.retrofit;
-
-import android.util.Log;
+package com.marcosvbras.empresas.models.api;
 
 import java.io.IOException;
 
@@ -26,9 +24,9 @@ public class RequestInterceptor implements Interceptor {
 
         Request request = originalRequest.newBuilder()
                 .header("Content-Type", "application/json")
-                .header("access-token", accessToken)
-                .header("client", client)
-                .header("uid", uid)
+                .header(UserModel.ACCESS_TOKEN_KEY, accessToken)
+                .header(UserModel.CLIENT_KEY, client)
+                .header(UserModel.UID_KEY, uid)
                 .method(originalRequest.method(), originalRequest.body())
                 .build();
         Response response = chain.proceed(request);

@@ -5,15 +5,13 @@
     <string name="text_email">E-mail</string>
     <string name="text_password">Senha</string>
     <string name="button_entry">Entrar</string>
-    <string name="error_invalid_email">Preencha corretamente o e-mail</string>
-    <string name="error_invalid_password">Preencha a senha</string>
+    <string name="required_field_error">Este campo é obrigatório</string>
+    <string name="invalid_email_format_error">Formato de e-mail inválido</string>
     <string name="title_activity_home">Home</string>
     <string name="search_view_text">Pesquisar</string>
-    <string name="access_token_key">access-token</string>
-    <string name="client_key">client</string>
-    <string name="uid_key">uid</string>
-    <string name="auth_pref">auth_data</string>
     <string name="logout_menu">Sair</string>
     <string name="ok">Ok</string>
     <string name="no_enterprise_found">Nenhuma empresa encontrada</string>
+    <string name="server_error_message">Estamos com problemas em nosso servidor. Tente novamente mais tarde.</string>
+    <string name="wrong_email_or_password">E-mail ou senha inválidos</string>
 </resources>

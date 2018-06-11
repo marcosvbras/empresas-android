@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/defaultBackground"
-    tools:context=".activities.MainActivity">
+    tools:context=".views.activities.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -59,6 +59,7 @@
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="@string/text_email"
+        android:text="testeapple@ioasys.com.br"
         android:inputType="textEmailAddress"
         android:paddingLeft="@dimen/edittext_padding_left"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +87,7 @@
         android:layout_marginTop="8dp"
         android:paddingLeft="@dimen/edittext_padding_left"
         android:ems="10"
+        android:text="12341234"
         android:hint="@string/text_password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
@@ -107,6 +109,23 @@
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toTopOf="@+id/editTextPassword"
         app:srcCompat="@drawable/ic_cadeado" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@android:color/white"
+        android:indeterminate="true"
+        android:indeterminateTint="#1a09d6"
+        android:max="100"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEntry"
+        app:layout_constraintVertical_bias="0.283"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/buttonEntry"

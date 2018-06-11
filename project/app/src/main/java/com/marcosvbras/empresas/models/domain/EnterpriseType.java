@@ -1,16 +1,16 @@
-package com.marcosvbras.empresas.models;
+package com.marcosvbras.empresas.models.domain;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EnterpriseTypeModel {
+public class EnterpriseType {
 
     private int id;
     @SerializedName("enterprise_type_name")
     private String enterpriseTypeName;
 
-    public EnterpriseTypeModel() {}
+    public EnterpriseType() {}
 
-    public EnterpriseTypeModel(int id, String enterpriseTypeName) {
+    public EnterpriseType(int id, String enterpriseTypeName) {
         this.id = id;
         this.enterpriseTypeName = enterpriseTypeName;
     }

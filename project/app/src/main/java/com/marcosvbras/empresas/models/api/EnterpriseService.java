@@ -1,8 +1,4 @@
-package com.marcosvbras.empresas.services;
-
-import com.marcosvbras.empresas.models.EnterpriseModel;
-import com.marcosvbras.empresas.retrofit.EnterpriseDetailResponse;
-import com.marcosvbras.empresas.retrofit.EnterpriseResponse;
+package com.marcosvbras.empresas.models.api;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

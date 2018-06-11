@@ -1,8 +1,8 @@
-package com.marcosvbras.empresas.models;
+package com.marcosvbras.empresas.models.domain;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EnterpriseModel {
+public class Enterprise {
 
     private int id;
     private int value;
@@ -26,7 +26,7 @@ public class EnterpriseModel {
     @SerializedName("own_shares")
     private int ownShares;
     @SerializedName("enterprise_type")
-    private EnterpriseTypeModel enterpriseType;
+    private EnterpriseType enterpriseType;
 
     public int getId() {
         return id;
@@ -156,11 +156,11 @@ public class EnterpriseModel {
         this.country = country;
     }
 
-    public EnterpriseTypeModel getEnterpriseType() {
+    public EnterpriseType getEnterpriseType() {
         return enterpriseType;
     }
 
-    public void setEnterpriseType(EnterpriseTypeModel enterpriseType) {
+    public void setEnterpriseType(EnterpriseType enterpriseType) {
         this.enterpriseType = enterpriseType;
     }
 }
