@@ -36,7 +36,7 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
     private void config() {
         listEnterprise.set(new ArrayList<>());
         enterpriseModel = new EnterpriseModel(this);
-        enterpriseAdapter.set(new EnterpriseAdapter(listEnterprise.get()));
+        enterpriseAdapter.set(new EnterpriseAdapter(listEnterprise.get(), baseCallback));
     }
 
     public void requestEnterprises(String query) {
