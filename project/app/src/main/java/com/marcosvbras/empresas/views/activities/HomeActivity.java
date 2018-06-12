@@ -1,32 +1,19 @@
 package com.marcosvbras.empresas.views.activities;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ActivityHomeBinding;
 import com.marcosvbras.empresas.models.api.UserModel;
 import com.marcosvbras.empresas.viewmodels.HomeViewModel;
-import com.marcosvbras.empresas.views.adapters.EnterpriseAdapter;
-import com.marcosvbras.empresas.views.listeners.RecyclerViewTouchConfig;
-import com.marcosvbras.empresas.views.listeners.OnRecyclerViewTouchListener;
-import com.marcosvbras.empresas.models.domain.Enterprise;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class HomeActivity extends BaseActivity implements OnRecyclerViewTouchListener, BaseViewModelCallback {
+public class HomeActivity extends BaseActivity {
 
     private SearchView searchView;
-    private List<Enterprise> originalListEnterprise;
-    private EnterpriseAdapter enterpriseAdapter;
-    private boolean firstCall = true;
     private ActivityHomeBinding activityHomeBinding;
 
     @Override
@@ -36,22 +23,13 @@ public class HomeActivity extends BaseActivity implements OnRecyclerViewTouchLis
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         activityHomeBinding.setViewModel(homeViewModel);
         activityHomeBinding.executePendingBindings();
-        originalListEnterprise = new ArrayList<>();
-        config();
+        setToolbar(R.id.top_toolbar,null, false);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         activityHomeBinding.getViewModel().requestEnterprises(null);
-    }
-
-    private void config() {
-        setSupportActionBar(findViewById(R.id.top_toolbar));
-//        recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.addOnItemTouchListener(new RecyclerViewTouchConfig(getBaseContext(), recyclerView, this));
-        enterpriseAdapter = new EnterpriseAdapter(originalListEnterprise);
-//        recyclerView.setAdapter(enterpriseAdapter);
     }
 
     @Override
@@ -73,7 +51,8 @@ public class HomeActivity extends BaseActivity implements OnRecyclerViewTouchLis
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_logout:
-                onInvalidAuthentication();
+                UserModel.deleteCredentials();
+                openActivity(LoginActivity.class, true);
                 break;
         }
 
@@ -95,33 +74,5 @@ public class HomeActivity extends BaseActivity implements OnRecyclerViewTouchLis
         };
     }
 
-    @Override
-    public void onInvalidAuthentication() {
-        UserModel.deleteCredentials();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void showErrorDialog(String message) {
-        showErrorDialog(message);
-    }
-
-    @Override
-    public void showErrorDialog(int message) {
-        showErrorDialog(getString(message));
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        Enterprise enterprise = enterpriseAdapter.getCurrentList().get(position);
-        Bundle bundle = new Bundle();
-        bundle.putInt("id", enterprise.getId());
-        startNewActivity(DetailActivity.class, bundle, false);
-    }
-
-    @Override
-    public void onLongItemClick(View view, int position) {}
 }
 

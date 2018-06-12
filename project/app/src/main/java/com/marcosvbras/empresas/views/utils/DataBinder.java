@@ -23,8 +23,8 @@ public class DataBinder {
         }
     }
 
-    @BindingAdapter({"app:adapter", "app:data"})
-    public void bindData(RecyclerView recyclerView, EnterpriseAdapter adapter, List<Enterprise> list) {
+    @BindingAdapter({"adapter", "data"})
+    public static void bindData(RecyclerView recyclerView, EnterpriseAdapter adapter, List<Enterprise> list) {
         if(recyclerView.getAdapter() == null)
             recyclerView.setAdapter(adapter);
 

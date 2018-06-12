@@ -3,25 +3,28 @@ package com.marcosvbras.empresas.viewmodels;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
-import com.marcosvbras.empresas.views.listeners.DetailViewModelCallBack;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.EnterpriseModel;
 import com.marcosvbras.empresas.models.api.UserModel;
 import com.marcosvbras.empresas.models.domain.Enterprise;
+import com.marcosvbras.empresas.views.activities.LoginActivity;
+import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
 import java.util.List;
 
 public class DetailViewModel extends BaseViewModel implements EnterpriseModel.OnRequestEnterpriseListener {
 
     private EnterpriseModel enterpriseModel;
-    private DetailViewModelCallBack detailCallback;
+    private BaseViewModelCallback baseCallback;
     public ObservableField<Enterprise> enterprise = new ObservableField<>();
 
-    public DetailViewModel(DetailViewModelCallBack detailCallback) {
-        this.detailCallback = detailCallback;
+    public DetailViewModel(@NonNull BaseViewModelCallback baseCallback) {
+        this.baseCallback = baseCallback;
 
-        if (!UserModel.isAuthenticated())
-            detailCallback.onInvalidAuthentication();
+        if (!UserModel.isAuthenticated()) {
+            baseCallback.openActivity(LoginActivity.class, true);
+            return;
+        }
 
         enterpriseModel = new EnterpriseModel(this);
     }
@@ -32,8 +35,8 @@ public class DetailViewModel extends BaseViewModel implements EnterpriseModel.On
 
     @Override
     public void onSingleEnterpriseReceived(Enterprise enterprise) {
-        detailCallback.onEnterpriseResponse(enterprise);
         this.enterprise.set(enterprise);
+        baseCallback.setToolbarTitle(enterprise.getEnterpriseName());
     }
 
     @Override
@@ -43,31 +46,32 @@ public class DetailViewModel extends BaseViewModel implements EnterpriseModel.On
 
     @Override
     public void onEnterpriseRequestFailure(String message) {
-        detailCallback.showError(message);
+        baseCallback.showErrorDialog(message);
     }
 
     @Override
     public void onRequestError(String message) {
-        detailCallback.showError(message);
+        baseCallback.showErrorDialog(message);
     }
 
     @Override
     public void onRequestStarted() {
-        getIsLoading().set(true);
+        isLoading.set(true);
     }
 
     @Override
     public void onRequestFinished() {
-        getIsLoading().set(false);
+        isLoading.set(false);
     }
 
     @Override
     public void onUnauthorizedRequest() {
-        detailCallback.onInvalidAuthentication();
+        UserModel.deleteCredentials();
+        baseCallback.openActivity(LoginActivity.class, true);
     }
 
     @Override
     public void onServerError() {
-        detailCallback.showError(R.string.server_error_message);
+        baseCallback.showErrorDialog(R.string.server_error_message);
     }
 }

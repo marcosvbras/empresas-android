@@ -6,16 +6,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.marcosvbras.empresas.R;
+import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements BaseViewModelCallback {
 
     private AlertDialog.Builder alertDialog;
 
-    protected void showErrorDialog(String message) {
+    @Override
+    public void showErrorDialog(String message) {
         showDialog(message);
     }
 
-    protected void showErrorDialog(int message) {
+    @Override
+    public void showErrorDialog(int message) {
         showDialog(getString(message));
     }
 
@@ -29,12 +32,40 @@ public class BaseActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void startNewActivity(Class<?> activity, Bundle bundle, boolean finish) {
-        Intent intent = new Intent(this, activity);
-        intent.putExtras(bundle);
+    @Override
+    public void openActivity(Class<?> activity, boolean finishCurrentActivity) {
+        startActivity(new Intent(this, activity));
 
-        if(finish)
+        if(finishCurrentActivity)
             finish();
     }
 
+    @Override
+    public void openActivity(Class<?> activity, Bundle bundle, boolean finishCurrentActivity) {
+        Intent intent = new Intent(this, activity);
+
+        if(bundle != null)
+            intent.putExtras(bundle);
+
+        startActivity(intent);
+
+        if(finishCurrentActivity)
+            finish();
+    }
+
+    @Override
+    public void setToolbar(int viewId, String title, boolean displayHomeAsUpEnabled) {
+        setSupportActionBar(findViewById(viewId));
+
+        if(title != null)
+            getSupportActionBar().setTitle(title);
+
+        if(displayHomeAsUpEnabled)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled);
+    }
+
+    @Override
+    public void setToolbarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 }

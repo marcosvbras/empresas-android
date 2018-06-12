@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import com.marcosvbras.empresas.views.activities.HomeActivity;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 import com.marcosvbras.empresas.views.utils.ErrorObservable;
 import com.marcosvbras.empresas.R;
@@ -12,21 +13,19 @@ import com.marcosvbras.empresas.models.api.UserModel;
 
 public class LoginViewModel extends BaseViewModel implements UserModel.OnRequestUserListener {
 
-    public interface LoginViewModelCallback extends BaseViewModelCallback {
-        void onSignedIn();
-    }
-
     private UserModel userModel;
-    private LoginViewModelCallback loginCallback;
+    private BaseViewModelCallback loginCallback;
     public final ObservableField<String> email = new ObservableField<>();
     public final ObservableField<String> password = new ObservableField<>();
     public final ErrorObservable error = new ErrorObservable();
 
-    public LoginViewModel(LoginViewModelCallback loginCallback) {
-        this.loginCallback = loginCallback;
+    public LoginViewModel(BaseViewModelCallback back) {
+        this.loginCallback = back;
 
-        if (UserModel.isAuthenticated())
-            loginCallback.onSignedIn();
+        if (UserModel.isAuthenticated()) {
+            loginCallback.openActivity(HomeActivity.class, true);
+            return;
+        }
 
         userModel = new UserModel(this);
     }
@@ -57,7 +56,7 @@ public class LoginViewModel extends BaseViewModel implements UserModel.OnRequest
 
     @Override
     public void onLoginSuccessful() {
-        loginCallback.onSignedIn();
+        loginCallback.openActivity(HomeActivity.class, null, true);
     }
 
     @Override

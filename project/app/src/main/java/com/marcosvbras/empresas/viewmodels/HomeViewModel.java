@@ -7,6 +7,7 @@ import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.EnterpriseModel;
 import com.marcosvbras.empresas.models.api.UserModel;
 import com.marcosvbras.empresas.models.domain.Enterprise;
+import com.marcosvbras.empresas.views.activities.LoginActivity;
 import com.marcosvbras.empresas.views.adapters.EnterpriseAdapter;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
@@ -24,8 +25,10 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
     public HomeViewModel(BaseViewModelCallback baseCallback) {
         this.baseCallback = baseCallback;
 
-        if (!UserModel.isAuthenticated())
-            onUnauthorizedRequest();
+        if (!UserModel.isAuthenticated()) {
+            baseCallback.openActivity(LoginActivity.class, true);
+            return;
+        }
 
         config();
     }
@@ -47,7 +50,7 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
 
     @Override
     public void onEnterpriseListReceived(List<Enterprise> enterpriseList) {
-        this.listEnterprise.set(enterpriseList);
+        listEnterprise.set(enterpriseList);
         isListEmpty.set(enterpriseList == null || enterpriseList.size() == 0 ? true : false);
     }
 
@@ -73,7 +76,8 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
 
     @Override
     public void onUnauthorizedRequest() {
-        baseCallback.onInvalidAuthentication();
+        UserModel.deleteCredentials();
+        baseCallback.openActivity(LoginActivity.class, true);
     }
 
     @Override
