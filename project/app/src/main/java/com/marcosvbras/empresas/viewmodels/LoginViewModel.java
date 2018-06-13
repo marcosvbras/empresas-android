@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import com.marcosvbras.empresas.EnterpriseApp;
 import com.marcosvbras.empresas.views.activities.HomeActivity;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 import com.marcosvbras.empresas.views.utils.ErrorObservable;
@@ -22,7 +23,7 @@ public class LoginViewModel extends BaseViewModel implements UserModel.OnRequest
     public LoginViewModel(BaseViewModelCallback back) {
         this.loginCallback = back;
 
-        if (UserModel.isAuthenticated()) {
+        if (EnterpriseApp.getInstance().hasCredentials()) {
             loginCallback.openActivity(HomeActivity.class, true);
             return;
         }

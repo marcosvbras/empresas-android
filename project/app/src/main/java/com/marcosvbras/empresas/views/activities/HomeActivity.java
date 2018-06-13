@@ -6,6 +6,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.marcosvbras.empresas.EnterpriseApp;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ActivityHomeBinding;
 import com.marcosvbras.empresas.models.api.UserModel;
@@ -51,7 +52,7 @@ public class HomeActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_logout:
-                UserModel.deleteCredentials();
+                EnterpriseApp.getInstance().deleteCredentials();
                 openActivity(LoginActivity.class, true);
                 break;
         }

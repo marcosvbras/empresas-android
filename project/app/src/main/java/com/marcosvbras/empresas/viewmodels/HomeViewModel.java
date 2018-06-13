@@ -3,6 +3,7 @@ package com.marcosvbras.empresas.viewmodels;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
+import com.marcosvbras.empresas.EnterpriseApp;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.EnterpriseModel;
 import com.marcosvbras.empresas.models.api.UserModel;
@@ -25,7 +26,7 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
     public HomeViewModel(BaseViewModelCallback baseCallback) {
         this.baseCallback = baseCallback;
 
-        if (!UserModel.isAuthenticated()) {
+        if (!EnterpriseApp.getInstance().hasCredentials()) {
             baseCallback.openActivity(LoginActivity.class, true);
             return;
         }
@@ -76,7 +77,7 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
 
     @Override
     public void onUnauthorizedRequest() {
-        UserModel.deleteCredentials();
+        EnterpriseApp.getInstance().deleteCredentials();
         baseCallback.openActivity(LoginActivity.class, true);
     }
 

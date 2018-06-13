@@ -3,6 +3,7 @@ package com.marcosvbras.empresas.viewmodels;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
+import com.marcosvbras.empresas.EnterpriseApp;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.models.api.EnterpriseModel;
 import com.marcosvbras.empresas.models.api.UserModel;
@@ -21,7 +22,7 @@ public class DetailViewModel extends BaseViewModel implements EnterpriseModel.On
     public DetailViewModel(@NonNull BaseViewModelCallback baseCallback) {
         this.baseCallback = baseCallback;
 
-        if (!UserModel.isAuthenticated()) {
+        if (!EnterpriseApp.getInstance().hasCredentials()) {
             baseCallback.openActivity(LoginActivity.class, true);
             return;
         }
@@ -66,7 +67,7 @@ public class DetailViewModel extends BaseViewModel implements EnterpriseModel.On
 
     @Override
     public void onUnauthorizedRequest() {
-        UserModel.deleteCredentials();
+        EnterpriseApp.getInstance().deleteCredentials();
         baseCallback.openActivity(LoginActivity.class, true);
     }
 

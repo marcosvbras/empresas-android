@@ -33,20 +33,20 @@ public class EnterpriseModel {
         requestListener.onRequestStarted();
         Call<EnterpriseResponse> call;
 
-        if(TextUtils.isEmpty(query) || query == null)
-            call = new RetrofitConfig(UserModel.getCredentials()).getEnterpriseService().getAllEnterprises();
-        else
-            call = new RetrofitConfig(UserModel.getCredentials()).getEnterpriseService().getEnterprises(query);
-
-        call.enqueue(enterpriseListCallback());
+//        if(TextUtils.isEmpty(query) || query == null)
+//            call = new APIService(UserModel.getCredentials()).getEnterpriseService().getAllEnterprises();
+//        else
+//            call = new APIService(UserModel.getCredentials()).getEnterpriseService().getEnterprises(query);
+//
+//        call.enqueue(enterpriseListCallback());
     }
 
     public void requestSingleEnterprise(@NonNull int id) {
-        requestListener.onRequestStarted();
-        Call<EnterpriseDetailResponse> call = new RetrofitConfig(
-                UserModel.getCredentials()
-        ).getEnterpriseService().getEnterprise(id);
-        call.enqueue(singleEnterpriseCallback());
+//        requestListener.onRequestStarted();
+//        Call<EnterpriseDetailResponse> call = new APIService(
+//                UserModel.getCredentials()
+//        ).getEnterpriseService().getEnterprise(id);
+//        call.enqueue(singleEnterpriseCallback());
     }
 
     private Callback<EnterpriseResponse> enterpriseListCallback() {
