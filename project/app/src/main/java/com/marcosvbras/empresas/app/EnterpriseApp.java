@@ -1,4 +1,4 @@
-package com.marcosvbras.empresas;
+package com.marcosvbras.empresas.app;
 
 import android.app.Application;
 import android.content.Context;

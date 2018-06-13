@@ -1,4 +1,4 @@
-package com.marcosvbras.empresas.models.api;
+package com.marcosvbras.empresas.models.api.responses;
 
 public class LoginBody {
 

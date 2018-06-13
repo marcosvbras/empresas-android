@@ -26,7 +26,7 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        activityDetailBinding.getViewModel().requestEnterpriseById(id);
+        activityDetailBinding.getViewModel().requestSingleEnterprise(id);
     }
 
 }

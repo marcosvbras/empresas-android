@@ -41,9 +41,8 @@ public class EnterpriseAdapter extends GroupAdapter {
         if(listEnterprises == null)
             this.listEnterprises = new ArrayList<>();
 
-        this.listEnterprises.clear();
-        this.listEnterprises.addAll(listEnterprises);
-        this.notifyDataSetChanged();
+        this.clear();
+        this.listEnterprises = listEnterprises;
         populateAdapter();
     }
 

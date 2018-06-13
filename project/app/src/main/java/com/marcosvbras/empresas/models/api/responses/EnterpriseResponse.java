@@ -1,4 +1,4 @@
-package com.marcosvbras.empresas.models.api;
+package com.marcosvbras.empresas.models.api.responses;
 
 import com.google.gson.annotations.SerializedName;
 import com.marcosvbras.empresas.models.domain.Enterprise;

@@ -1,22 +1,23 @@
 package com.marcosvbras.empresas.viewmodels;
 
+import android.annotation.SuppressLint;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
-import com.marcosvbras.empresas.EnterpriseApp;
-import com.marcosvbras.empresas.R;
-import com.marcosvbras.empresas.models.api.EnterpriseModel;
-import com.marcosvbras.empresas.models.api.UserModel;
+import com.marcosvbras.empresas.app.EnterpriseApp;
+import com.marcosvbras.empresas.models.api.refrofit.APIService;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 import com.marcosvbras.empresas.views.activities.LoginActivity;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
-import java.util.List;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-public class DetailViewModel extends BaseViewModel implements EnterpriseModel.OnRequestEnterpriseListener {
+public class DetailViewModel extends BaseViewModel {
 
-    private EnterpriseModel enterpriseModel;
     private BaseViewModelCallback baseCallback;
+    private Disposable disposable;
     public ObservableField<Enterprise> enterprise = new ObservableField<>();
 
     public DetailViewModel(@NonNull BaseViewModelCallback baseCallback) {
@@ -26,53 +27,31 @@ public class DetailViewModel extends BaseViewModel implements EnterpriseModel.On
             baseCallback.openActivity(LoginActivity.class, true);
             return;
         }
-
-        enterpriseModel = new EnterpriseModel(this);
     }
 
-    public void requestEnterpriseById(@NonNull int id) {
-        enterpriseModel.requestSingleEnterprise(id);
-    }
+    @SuppressLint("CheckResult")
+    public void requestSingleEnterprise(@NonNull int id) {
+        if(disposable != null && !disposable.isDisposed())
+            disposable.dispose();
 
-    @Override
-    public void onSingleEnterpriseReceived(Enterprise enterprise) {
-        this.enterprise.set(enterprise);
-        baseCallback.setToolbarTitle(enterprise.getEnterpriseName());
-    }
-
-    @Override
-    public void onEnterpriseListReceived(List<Enterprise> enterpriseList) {
-
-    }
-
-    @Override
-    public void onEnterpriseRequestFailure(String message) {
-        baseCallback.showErrorDialog(message);
-    }
-
-    @Override
-    public void onRequestError(String message) {
-        baseCallback.showErrorDialog(message);
-    }
-
-    @Override
-    public void onRequestStarted() {
-        isLoading.set(true);
-    }
-
-    @Override
-    public void onRequestFinished() {
-        isLoading.set(false);
-    }
-
-    @Override
-    public void onUnauthorizedRequest() {
-        EnterpriseApp.getInstance().deleteCredentials();
-        baseCallback.openActivity(LoginActivity.class, true);
-    }
-
-    @Override
-    public void onServerError() {
-        baseCallback.showErrorDialog(R.string.server_error_message);
+        APIService.getInstance().getEnterprise(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(d -> {
+                    isLoading.set(true);
+                    disposable = d;
+                })
+                .doOnComplete(() -> {
+                    isLoading.set(false);
+                    disposable.dispose();
+                    disposable = null;
+                })
+                .subscribe(next -> {
+                    enterprise.set(next.getEnterprise());
+                    baseCallback.setToolbarTitle(enterprise.get().getEnterpriseName());
+                }, error -> {
+                    isLoading.set(false);
+                    baseCallback.showErrorDialog(error.getMessage());
+                });
     }
 }

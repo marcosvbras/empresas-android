@@ -1,12 +1,12 @@
 package com.marcosvbras.empresas.viewmodels;
 
+import android.annotation.SuppressLint;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.text.TextUtils;
 
-import com.marcosvbras.empresas.EnterpriseApp;
-import com.marcosvbras.empresas.R;
-import com.marcosvbras.empresas.models.api.EnterpriseModel;
-import com.marcosvbras.empresas.models.api.UserModel;
+import com.marcosvbras.empresas.app.EnterpriseApp;
+import com.marcosvbras.empresas.models.api.refrofit.APIService;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 import com.marcosvbras.empresas.views.activities.LoginActivity;
 import com.marcosvbras.empresas.views.adapters.EnterpriseAdapter;
@@ -14,11 +14,16 @@ import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRequestEnterpriseListener {
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+public class HomeViewModel extends BaseViewModel {
 
     private BaseViewModelCallback baseCallback;
-    private EnterpriseModel enterpriseModel;
+    private Disposable disposable;
     public ObservableBoolean isListEmpty = new ObservableBoolean(true);
     public ObservableField<List<Enterprise>> listEnterprise = new ObservableField<>();
     public ObservableField<EnterpriseAdapter> enterpriseAdapter = new ObservableField<>();
@@ -36,54 +41,55 @@ public class HomeViewModel extends BaseViewModel implements EnterpriseModel.OnRe
 
     private void config() {
         listEnterprise.set(new ArrayList<>());
-        enterpriseModel = new EnterpriseModel(this);
         enterpriseAdapter.set(new EnterpriseAdapter(listEnterprise.get(), baseCallback));
     }
 
+    @SuppressLint("CheckResult")
     public void requestEnterprises(String query) {
-        enterpriseModel.requestEnterprises(query);
-    }
+        if (disposable != null && !disposable.isDisposed())
+            disposable.dispose();
 
-    @Override
-    public void onSingleEnterpriseReceived(Enterprise enterprise) {
-
-    }
-
-    @Override
-    public void onEnterpriseListReceived(List<Enterprise> enterpriseList) {
-        listEnterprise.set(enterpriseList);
-        isListEmpty.set(enterpriseList == null || enterpriseList.size() == 0 ? true : false);
-    }
-
-    @Override
-    public void onEnterpriseRequestFailure(String message) {
-        baseCallback.showErrorDialog(message);
-    }
-
-    @Override
-    public void onRequestError(String message) {
-        baseCallback.showErrorDialog(message);
-    }
-
-    @Override
-    public void onRequestStarted() {
-        isLoading.set(true);
-    }
-
-    @Override
-    public void onRequestFinished() {
-        isLoading.set(false);
-    }
-
-    @Override
-    public void onUnauthorizedRequest() {
-        EnterpriseApp.getInstance().deleteCredentials();
-        baseCallback.openActivity(LoginActivity.class, true);
-    }
-
-    @Override
-    public void onServerError() {
-        baseCallback.showErrorDialog(R.string.server_error_message);
+        if(TextUtils.isEmpty(query)) {
+            APIService.getInstance().getAllEnterprises()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(d -> {
+                        isLoading.set(true);
+                        disposable = d;
+                    })
+                    .doOnComplete(() -> {
+                        isLoading.set(false);
+                        disposable.dispose();
+                        disposable = null;
+                    })
+                    .subscribe(next -> {
+                        listEnterprise.set(next.getListEnterprises());
+                        isListEmpty.set(Objects.requireNonNull(listEnterprise.get()).size() == 0);
+                    }, error -> {
+                        isLoading.set(false);
+                        baseCallback.showErrorDialog(error.getMessage());
+                    });
+        } else {
+            APIService.getInstance().getEnterprises(query)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(d -> {
+                        isLoading.set(true);
+                        disposable = d;
+                    })
+                    .doOnComplete(() -> {
+                        isLoading.set(false);
+                        disposable.dispose();
+                        disposable = null;
+                    })
+                    .subscribe(next -> {
+                        listEnterprise.set(next.getListEnterprises());
+                        isListEmpty.set(Objects.requireNonNull(listEnterprise.get()).size() == 0);
+                    }, error -> {
+                        isLoading.set(false);
+                        baseCallback.showErrorDialog(error.getMessage());
+                    });
+        }
     }
 
 }

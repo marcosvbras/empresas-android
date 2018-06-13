@@ -1,9 +1,11 @@
-package com.marcosvbras.empresas.models.api;
+package com.marcosvbras.empresas.models.api.refrofit;
 
+import com.marcosvbras.empresas.models.api.responses.EnterpriseDetailResponse;
+import com.marcosvbras.empresas.models.api.responses.EnterpriseResponse;
+import com.marcosvbras.empresas.models.api.responses.LoginBody;
 import com.marcosvbras.empresas.views.utils.Constants;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -18,13 +20,12 @@ public interface APIEndpoints {
     Observable<Void> login(@Body LoginBody login);
 
     @GET(Constants.ENTERPRISES_LIST_ENDPOINT)
-    Call<EnterpriseResponse> getAllEnterprises();
+    Observable<EnterpriseResponse> getAllEnterprises();
 
     @GET(Constants.FILTER_ENTERPRISE_ENDPOINT)
-    Call<EnterpriseResponse> getEnterprises(@Query("name") String name);
+    Observable<EnterpriseResponse> getEnterprises(@Query("name") String name);
 
     @GET(Constants.GET_ENTERPRISE_ENDPOINT)
-    Call<EnterpriseDetailResponse> getEnterprise(@Path("id") int id);
-
+    Observable<EnterpriseDetailResponse> getEnterprise(@Path("id") int id);
 
 }

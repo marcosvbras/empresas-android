@@ -148,7 +148,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
             android:text="@string/button_entry"
-            android:onClick="@{() -> viewModel.requestLogin()}"
+            android:onClick="@{() -> viewModel.login()}"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

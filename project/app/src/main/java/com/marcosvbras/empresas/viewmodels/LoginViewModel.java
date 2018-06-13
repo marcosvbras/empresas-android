@@ -1,39 +1,69 @@
 package com.marcosvbras.empresas.viewmodels;
 
+import android.annotation.SuppressLint;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Patterns;
 
-import com.marcosvbras.empresas.EnterpriseApp;
+import com.marcosvbras.empresas.app.EnterpriseApp;
+import com.marcosvbras.empresas.models.api.refrofit.APIService;
 import com.marcosvbras.empresas.views.activities.HomeActivity;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 import com.marcosvbras.empresas.views.utils.ErrorObservable;
 import com.marcosvbras.empresas.R;
-import com.marcosvbras.empresas.models.api.LoginBody;
-import com.marcosvbras.empresas.models.api.UserModel;
+import com.marcosvbras.empresas.models.api.responses.LoginBody;
 
-public class LoginViewModel extends BaseViewModel implements UserModel.OnRequestUserListener {
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-    private UserModel userModel;
-    private BaseViewModelCallback loginCallback;
+public class LoginViewModel extends BaseViewModel {
+
+    private Disposable disposable;
+    private BaseViewModelCallback baseCallback;
     public final ObservableField<String> email = new ObservableField<>();
     public final ObservableField<String> password = new ObservableField<>();
     public final ErrorObservable error = new ErrorObservable();
 
-    public LoginViewModel(BaseViewModelCallback back) {
-        this.loginCallback = back;
+    public LoginViewModel(BaseViewModelCallback baseCallback) {
+        this.baseCallback = baseCallback;
 
         if (EnterpriseApp.getInstance().hasCredentials()) {
-            loginCallback.openActivity(HomeActivity.class, true);
+            this.baseCallback.openActivity(HomeActivity.class, true);
             return;
         }
-
-        userModel = new UserModel(this);
     }
 
-    public void requestLogin() {
-        if (isFormValid(email.get(), password.get()))
-            userModel.login(new LoginBody(email.get(), password.get()));
+    @SuppressLint("CheckResult")
+    public void login() {
+        if (isFormValid(email.get(), password.get())) {
+
+            if (disposable != null && !disposable.isDisposed())
+                disposable.dispose();
+
+            APIService.getInstance()
+                    .login(new LoginBody(email.get(), password.get()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(d -> {
+                        isLoading.set(true);
+                        disposable = d;
+                    })
+                    .doOnComplete(() -> {
+                        isLoading.set(false);
+                        baseCallback.openActivity(HomeActivity.class, null, true);
+                        disposable.dispose();
+                        disposable = null;
+                    })
+                    .subscribe(next -> {
+
+                    }, error -> {
+                        isLoading.set(false);
+                        baseCallback.showErrorDialog(error.getMessage());
+                    }, () -> {
+
+                    });
+        }
     }
 
     private boolean isFormValid(String email, String password) {
@@ -53,40 +83,5 @@ public class LoginViewModel extends BaseViewModel implements UserModel.OnRequest
         }
 
         return true;
-    }
-
-    @Override
-    public void onLoginSuccessful() {
-        loginCallback.openActivity(HomeActivity.class, null, true);
-    }
-
-    @Override
-    public void onLoginFailure(String message) {
-        loginCallback.showErrorDialog(message);
-    }
-
-    @Override
-    public void onRequestError(String message) {
-        loginCallback.showErrorDialog(message);
-    }
-
-    @Override
-    public void onRequestStarted() {
-        isLoading.set(true);
-    }
-
-    @Override
-    public void onRequestFinished() {
-        isLoading.set(false);
-    }
-
-    @Override
-    public void onUnauthorizedRequest() {
-        loginCallback.showErrorDialog(R.string.wrong_email_or_password);
-    }
-
-    @Override
-    public void onServerError() {
-        loginCallback.showErrorDialog(R.string.server_error_message);
     }
 }
