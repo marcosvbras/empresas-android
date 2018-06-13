@@ -1,6 +1,5 @@
 package com.marcosvbras.empresas.models.api.refrofit;
 
-import com.marcosvbras.empresas.app.EnterpriseApp;
 import com.marcosvbras.empresas.views.utils.Constants;
 
 import java.io.IOException;

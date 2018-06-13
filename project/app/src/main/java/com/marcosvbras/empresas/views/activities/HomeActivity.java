@@ -6,7 +6,6 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.marcosvbras.empresas.app.EnterpriseApp;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ActivityHomeBinding;
 import com.marcosvbras.empresas.viewmodels.HomeViewModel;
