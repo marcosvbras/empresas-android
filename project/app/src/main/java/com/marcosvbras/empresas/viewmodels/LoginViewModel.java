@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import com.marcosvbras.empresas.app.EnterpriseApp;
 import com.marcosvbras.empresas.models.api.refrofit.APIService;
 import com.marcosvbras.empresas.views.activities.HomeActivity;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;

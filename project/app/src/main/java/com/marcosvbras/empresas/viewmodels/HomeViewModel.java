@@ -5,6 +5,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
+import com.marcosvbras.empresas.app.EnterpriseApp;
 import com.marcosvbras.empresas.models.api.refrofit.APIService;
 import com.marcosvbras.empresas.models.domain.Enterprise;
 import com.marcosvbras.empresas.views.activities.LoginActivity;
