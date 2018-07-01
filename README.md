@@ -1,39 +1,33 @@
-# README #
+# Enterprises
 
-Estes documento README tem como objetivo fornecer as informações necessárias para realização do projeto Empresas.
+An android project used to learn different kinds of Design Patterns.
 
-### O QUE FAZER ? ###
+## Description
 
-* Você deve fazer o checkout deste repositório, criar o código e ao finalizar realizar o commit e solicitar um pull request, nós iremos avaliar e retornar por email o resultado do seu teste.
+This project is divided in 5 branches:
+- **Master**: A "messy" project with code coupling and not too much single responsability.
+- **MVP**: The above project with Model-View-Presenter design pattern.
+- **MVVM**: The above project with Model-View-View-Model design pattern.
+- **RxJava**: The final MVVM project with reactive programming paradigm.
+- **Kotlin**: The RxJava project rewriten in Kotlin.
 
-### ESCOPO DO PROJETO ###
+### Scope
 
-* Deve ser criado um aplicativo Android utilizando linguagem nativa(Java) com as seguintes especificações:
-* Login e acesso de Usuário já registrado
-	* Para o login usamos padrões OAuth 2.0. Na resposta de sucesso do login a api retornará 3 custom headers (access-token, client, uid);
-	* Para ter acesso as demais APIS precisamos enviar esses 3 custom headers para a API autorizar a requisição;
-* Listagem de Empresas
-* Detalhamento de Empresas
+A native Android project with:
+* User login
+	* The API use OAuth 2.0 pattern and it will return 3 custom headers: *access-token*, *client* and *uid*.
+	* To have access of other endpoints, the 3 custom headers are required.
+* Enterprise list and filtering.
+* Enterprise details.
 
-### Informações Importantes ###
+### Testing
 
-* Layout e recortes disponíveis no Zeplin (http://zeplin.io)
-Login - teste_ioasys
-Senha - ioasys123
+* Username: testeapple@ioasys.com.br
+* Password : 12341234
 
-* Integração disponível a partir de uma collection para Postman (https://www.getpostman.com/apps) disponível neste repositório.
+### Libraries
 
-* Independente de onde conseguiu chegar no teste é importante disponibilizar seu fonte para analisarmos.
-
-### Dados para Teste ###
-
-* Servidor: http://54.94.179.135:8090
-* Versão da API: v1
-* Usuário de Teste: testeapple@ioasys.com.br
-* Senha de Teste : 12341234
-
-### Dicas ###
-
-* Para requisição sugerimos usar a biblioteca Retrofit
-* Para download e cache de imagens use a biblioteca Glide
-* Para parse de Json use a biblioteca GSON
+* [**Retrofit**](http://square.github.io/retrofit/) for API requests
+* [**GSON**](https://github.com/square/retrofit/tree/master/retrofit-converters/gson) for Json parsing
+* [**Groupie**](https://github.com/lisawray/groupie) for item data binding in RecyclerView
+* [**RxJava**](https://github.com/ReactiveX/RxJava) for Reactive Programming
