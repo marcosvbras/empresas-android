@@ -2,6 +2,10 @@
 
 An android project used to learn different kinds of Design Patterns.
 
+<p align="center">
+  <img src="img/login.png" alt="Login activity"/>
+</p>
+
 ## Description
 
 This project is divided in 5 branches:
@@ -15,15 +19,15 @@ This project is divided in 5 branches:
 
 A native Android project with:
 * User login
-	* The API use OAuth 2.0 pattern and it will return 3 custom headers: *access-token*, *client* and *uid*.
+	* The API uses OAuth 2.0 pattern and it will return 3 custom headers: *access-token*, *client* and *uid*.
 	* To have access of other endpoints, the 3 custom headers are required.
 * Enterprise list and filtering.
 * Enterprise details.
 
 ### Testing
 
-* Username: testeapple@ioasys.com.br
-* Password : 12341234
+* **Username**: testeapple@ioasys.com.br
+* **Password**: 12341234
 
 ### Libraries
 
