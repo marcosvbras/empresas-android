@@ -5,8 +5,8 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 import com.marcosvbras.empresas.app.EnterpriseApp;
-import com.marcosvbras.empresas.models.api.refrofit.APIService;
-import com.marcosvbras.empresas.models.domain.Enterprise;
+import com.marcosvbras.empresas.business.api.refrofit.APIService;
+import com.marcosvbras.empresas.business.domain.Enterprise;
 import com.marcosvbras.empresas.views.activities.LoginActivity;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
@@ -34,7 +34,7 @@ public class DetailViewModel extends BaseViewModel {
         if(disposable != null && !disposable.isDisposed())
             disposable.dispose();
 
-        APIService.getInstance().getEnterprise(id)
+        APIService.Companion.getService().getEnterprise(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(d -> {

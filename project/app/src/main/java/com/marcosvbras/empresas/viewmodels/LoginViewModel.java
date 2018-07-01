@@ -6,12 +6,12 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 import com.marcosvbras.empresas.app.EnterpriseApp;
-import com.marcosvbras.empresas.models.api.refrofit.APIService;
+import com.marcosvbras.empresas.business.api.refrofit.APIService;
+import com.marcosvbras.empresas.business.api.responses.LoginBody;
+import com.marcosvbras.empresas.utils.ErrorObservable;
 import com.marcosvbras.empresas.views.activities.HomeActivity;
-import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
-import com.marcosvbras.empresas.views.utils.ErrorObservable;
 import com.marcosvbras.empresas.R;
-import com.marcosvbras.empresas.models.api.responses.LoginBody;
+import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -41,7 +41,7 @@ public class LoginViewModel extends BaseViewModel {
             if (disposable != null && !disposable.isDisposed())
                 disposable.dispose();
 
-            APIService.getInstance()
+            APIService.Companion.getService()
                     .login(new LoginBody(email.get(), password.get()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -68,17 +68,17 @@ public class LoginViewModel extends BaseViewModel {
 
     private boolean isFormValid(String email, String password) {
         if (TextUtils.isEmpty(email)) {
-            error.set(R.string.required_field_error);
+            error.setErrorInt(R.string.required_field_error);
             return false;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            error.set(R.string.invalid_email_format_error);
+            error.setErrorInt(R.string.invalid_email_format_error);
             return false;
         }
 
         if (TextUtils.isEmpty(password)) {
-            error.set(R.string.required_field_error);
+            error.setErrorInt(R.string.required_field_error);
             return false;
         }
 

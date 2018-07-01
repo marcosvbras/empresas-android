@@ -5,7 +5,7 @@
     <data>
         <variable
             name="enterprise"
-            type="com.marcosvbras.empresas.models.domain.Enterprise"/>
+            type="com.marcosvbras.empresas.business.domain.Enterprise"/>
     </data>
 
     <LinearLayout

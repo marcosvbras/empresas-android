@@ -6,7 +6,7 @@ import android.view.View;
 import com.genius.groupie.Item;
 import com.marcosvbras.empresas.R;
 import com.marcosvbras.empresas.databinding.ItemEnterpriseBinding;
-import com.marcosvbras.empresas.models.domain.Enterprise;
+import com.marcosvbras.empresas.business.domain.Enterprise;
 import com.marcosvbras.empresas.views.activities.DetailActivity;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 

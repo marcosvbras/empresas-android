@@ -3,7 +3,7 @@ package com.marcosvbras.empresas.views.adapters;
 import android.support.annotation.NonNull;
 
 import com.genius.groupie.GroupAdapter;
-import com.marcosvbras.empresas.models.domain.Enterprise;
+import com.marcosvbras.empresas.business.domain.Enterprise;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
 
 import java.util.ArrayList;

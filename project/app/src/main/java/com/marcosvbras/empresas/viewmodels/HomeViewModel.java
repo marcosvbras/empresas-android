@@ -6,8 +6,8 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 
 import com.marcosvbras.empresas.app.EnterpriseApp;
-import com.marcosvbras.empresas.models.api.refrofit.APIService;
-import com.marcosvbras.empresas.models.domain.Enterprise;
+import com.marcosvbras.empresas.business.api.refrofit.APIService;
+import com.marcosvbras.empresas.business.domain.Enterprise;
 import com.marcosvbras.empresas.views.activities.LoginActivity;
 import com.marcosvbras.empresas.views.adapters.EnterpriseAdapter;
 import com.marcosvbras.empresas.views.listeners.BaseViewModelCallback;
@@ -50,7 +50,7 @@ public class HomeViewModel extends BaseViewModel {
             disposable.dispose();
 
         if(TextUtils.isEmpty(query)) {
-            APIService.getInstance().getAllEnterprises()
+            APIService.Companion.getService().getAllEnterprises()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(d -> {
@@ -70,7 +70,7 @@ public class HomeViewModel extends BaseViewModel {
                         baseCallback.showErrorDialog(error.getMessage());
                     });
         } else {
-            APIService.getInstance().getEnterprises(query)
+            APIService.Companion.getService().getEnterprises(query)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(d -> {
