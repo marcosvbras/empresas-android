@@ -3,7 +3,7 @@
 An android project used to learn different kinds of Design Patterns.
 
 <p align="center">
-  <img src="img/login.png" alt="Login activity"/>
+  <img src="img/login2.png" alt="Login activity"/>
   <img src="img/home.png" alt="Home activity"/>
 </p>
 
