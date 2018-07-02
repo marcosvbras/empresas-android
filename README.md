@@ -34,4 +34,5 @@ A native Android project with:
 * [**Retrofit**](http://square.github.io/retrofit/) for API requests
 * [**GSON**](https://github.com/square/retrofit/tree/master/retrofit-converters/gson) for Json parsing
 * [**Groupie**](https://github.com/lisawray/groupie) for item data binding in RecyclerView
+* [**Moxy**](https://github.com/Arello-Mobile/Moxy) for MVP implementation
 * [**RxJava**](https://github.com/ReactiveX/RxJava) for Reactive Programming
