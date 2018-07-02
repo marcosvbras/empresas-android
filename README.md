@@ -4,6 +4,7 @@ An android project used to learn different kinds of Design Patterns.
 
 <p align="center">
   <img src="img/login.png" alt="Login activity"/>
+  <img src="img/home.png" alt="Home activity"/>
 </p>
 
 ## Description
@@ -17,8 +18,8 @@ This project is divided in 5 branches:
 
 ### Scope
 
-A native Android project with:
-* User login
+* A native Android project.
+* User login:
 	* The API uses OAuth 2.0 pattern and it will return 3 custom headers: *access-token*, *client* and *uid*.
 	* To have access of other endpoints, the 3 custom headers are required.
 * Enterprise list and filtering.
